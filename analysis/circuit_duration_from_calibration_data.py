@@ -2,6 +2,7 @@ from qiskit.transpiler import InstructionDurations
 from qiskit.transpiler import PassManager
 from qiskit.transpiler.passes import ALAPSchedule
 from qiskit import QuantumCircuit
+import pickle
 
 
 def durations_from_backend(backend_properties):
@@ -34,7 +35,10 @@ def durations_from_backend(backend_properties):
 
 
 def circuit_duration(
-    qasm: str, backend_properties: dict, dt=2.2222222222222221e-10, unit="dt"
+    qasm: str,
+    backend_properties: dict,
+    dt=2.2222222222222221e-10,
+    unit="dt",
 ):
     """compute circuit duration given the backend properties
 
@@ -57,3 +61,31 @@ def circuit_duration(
         return qc_sched.duration
     if unit == "s":
         return (qc_sched.duration) * dt
+
+
+def export_circuit_duration_from_rawdata(rawdata_fname: str) -> dict:
+    """Given a rawdata file, find the calibration data, compute the circuit duration for
+    all problem sizes and export the information the same location where the rawdata is located.
+
+    Args:
+        rawdata_fname (str): location of the rawdata file
+
+    Returns:
+        dict: {n:circuit duration in s}
+    """
+    file = open(rawdata_fname, "rb")
+    rawdata = pickle.load(file)
+    file.close()
+
+    prop = rawdata["calibration_data"]
+    circuits = rawdata["base_circs"]
+    bv_durations = {
+        i: circuit_duration(circuits[i], prop, unit="s")
+        for i in range(len(rawdata["base_circs"]))
+    }
+    bv_durations_name = rawdata_fname.replace("rawdata", "durations")
+    file = open(bv_durations_name, "wb")
+    pickle.dump(bv_durations, file)
+    file.close()
+
+    return bv_durations
