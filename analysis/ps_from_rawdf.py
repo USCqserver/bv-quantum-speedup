@@ -85,16 +85,8 @@ def restrict_to_bvn(
                 new_df = pd.concat((new_df, pd.Series(info_raw, name=mark)), axis=1)
     return new_df.transpose()
 
-    # """
-    # for instance
-    #     00 01 10 11
-    # 00
-    # 01
-    # 11
-    # will have row 10 added
-    # """
 
-
+# TODO: Add typehints and docstrings here
 from itertools import permutations
 
 
@@ -120,9 +112,7 @@ def infer_permutation_mapping(org, new):
     """
     map_dict = {}
     loc_org = findOccurrences(org, "1")
-    # print(loc_org)
     loc_new = findOccurrences(new, "1")
-    # print(loc_new)
     assert len(loc_org) == len(loc_new)
     # iterate over all indices that have a 1
     for i in range(len(loc_org)):

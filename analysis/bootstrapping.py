@@ -57,6 +57,7 @@ def bootstrap(func, data, samples=1000):
     return func_average
 
 
+# TODO: Add typehints and docstrings
 def generate_bootstrapped_df(raw_df, N: int = 100):
     bootstrapped_df = raw_df.copy()
     seqs = [
@@ -162,6 +163,7 @@ def average_over_tts_lst(lst: list) -> pd.DataFrame:
     return new_pd
 
 
+# TODO: Add typehints and docstrings
 def get_all_tts(rawdata_file, n=100):
     lst = []
     for i in range(0, n):
