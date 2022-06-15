@@ -209,7 +209,12 @@ def extract_avg_tts_from_bs_samples(
     avg_tts = average_over_tts_lst(tts_df_list)
 
     if export == True:
+        # export to data folder
         avg_tts_file = rawdf_fname.replace("rawdf", f"avgtts").replace(".p", ".csv")
         avg_tts.to_csv(avg_tts_file)
+        # export to results folder
+        avg_tts_file_results = "../results/" + os.path.basename(avg_tts_file)
+        print(avg_tts_file_results)
+        avg_tts.to_csv(avg_tts_file_results)
 
     return avg_tts
