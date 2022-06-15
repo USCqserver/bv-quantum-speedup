@@ -6,6 +6,7 @@ from tqdm import tqdm
 import os
 import pandas as pd
 import numpy as np
+from collections import Counter
 
 
 def countdict_to_replist(countdict):
@@ -27,24 +28,13 @@ def bootstrapped_copy_replist(replist, samples=None):
 
 
 def replist_to_countdict(replist):
-    countdict = {}
-    for key in list(set(replist)):
-        count = sum(1 for x in replist if x == key)
-        countdict[key] = count
-    return countdict
-
-
-from collections import Counter
-
-
-def replist_to_countdict_v2(replist):
     return dict(Counter(replist))
 
 
 def bootstrapped_copy_countdict(countdict):
     org_replist = countdict_to_replist(countdict)
     new_replist = bootstrapped_copy_replist(org_replist)
-    new_countdict = replist_to_countdict_v2(new_replist)
+    new_countdict = replist_to_countdict(new_replist)
     return new_countdict
 
 

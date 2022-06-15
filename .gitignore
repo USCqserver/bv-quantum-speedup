@@ -1,3 +1,5 @@
 !results/
 .vscode/
 .gitattributes
+__pycache__
+*.p 
